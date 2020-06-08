@@ -36,19 +36,19 @@
 *
 ***********************************************************************************************************************/
 
-public static String version()      {  return "v1.0"  }
+public static String version()      {  return "v1.01"  }
 
 /***********************************************************************************************************************
 *
 * Version 1
-*   5/31/2020: version 1 for weatherstack api
-*
+*   5/31/2020: 1.0 - version 1 for weatherstack api
+*   6/1/2020:  1.01 - added hourly refresh rate
 */
 
 import groovy.transform.Field
 
 metadata    {
-    definition (name: "WeatherStation Weather Driver", namespace: "craigde", author: "craigde")  {
+    definition (name: "Weatherstack Weather Driver", namespace: "craigde", author: "craigde")  {
         capability "Actuator"
         capability "Sensor"
         capability "Polling"
@@ -119,8 +119,8 @@ metadata    {
         input "cityName", "text", title: "Override default city name?", required:false, defaultValue:null
         input "isFahrenheit", "bool", title:"Use Imperial units?", required:true, defaultValue:true
         input "dashClock", "bool", title:"Flash time ':' every 2 seconds?", required:true, defaultValue:false
-        input "pollEvery", "enum", title:"Poll Api how frequently?\nrecommended setting 30 minutes.\nilluminance is always updated every 5 minutes.", required:true, defaultValue:30, options:[5:"5 minutes",10:"10 minutes",15:"15 minutes",30:"30 minutes"]
-		input "luxEvery", "enum", title:"Publish illuminance how frequently?", required:true, defaultValue:5, options:[5:"5 minutes",10:"10 minutes",15:"15 minutes",30:"30 minutes"]
+        input "pollEvery", "enum", title:"Poll Api interval?\nrecommended setting 60 minutes.\nilluminance is updated independently.", required:true, defaultValue:"1Hour", options:["15Minutes":"15 minutes","30Minutes":"30 minutes","1Hour":"60 minutes", "2Hour":"120 minutes"]
+		input "luxEvery", "enum", title:"Illuminance update interval?", required:true, defaultValue:"5Minutes", options:["5Minutes":"5 minutes","10Minutes":"10 minutes","15Minutes":"15 minutes","30Minutes":"30 minutes","1Hour":"60 minutes"]
 		input "isDebug", "bool", title:"Debug mode", required:true, defaultValue:false
 //        for (def attr : attributesMap)
 //			input "${attr.key}Publish", "bool", title: "$attr.value", required: true, defaultValue: true
@@ -134,8 +134,11 @@ def updated()   {
 	state.localDate = null
     state.clockSeconds = true
     poll()
-    "runEvery${pollEvery}Minutes"(poll)
-    "runEvery${luxEvery}Minutes"(updateLux)
+    if (isDebug) {log.debug ">>>>> api polltime: $pollEvery"}
+
+    "runEvery${pollEvery}"(poll)
+    "runEvery${luxEvery}"(updateLux)
+    
     if (dashClock)  updateClock();
 }
 
