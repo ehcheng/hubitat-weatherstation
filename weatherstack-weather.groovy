@@ -5,7 +5,7 @@
 *       https://github.com/adey/bangali/blob/master/driver/apixu-weather.groovy    old apiux driver used as a starting point 
 *       https://github.com/jebbett      code for new weather icons based on weather condition data
 *       https://www.deviantart.com/vclouds/art/VClouds-Weather-Icons-179152045     new weather icons courtesy of VClouds
-*		https://github.com/arnbme		code for mytile
+*	https://github.com/arnbme		code for mytile
 *
 *  Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
 *  in compliance with the License. You may obtain a copy of the License at:
@@ -43,6 +43,7 @@ public static String version()      {  return "v1.01"  }
 * Version 1
 *   5/31/2020: 1.0 - version 1 for weatherstack api
 *   6/1/2020:  1.01 - added hourly refresh rate
+*   7/12/2020: 1.02 - minor bug fixes
 */
 
 import groovy.transform.Field
@@ -102,8 +103,7 @@ metadata    {
         attribute "feelsLike", "string"
         attribute "wind", "string"
         attribute "precip", "string"
-        attribute "percentPrecip", "string"
-
+   
         attribute "localSunrise", "string"
         attribute "localSunset", "string"
 
@@ -133,6 +133,7 @@ def updated()   {
     state.tz_id = null
 	state.localDate = null
     state.clockSeconds = true
+    state.precip = null
     poll()
     if (isDebug) {log.debug ">>>>> api polltime: $pollEvery"}
 
@@ -231,13 +232,13 @@ def poll()      {
     sendEventPublish(name: "location", value: obs.location.name + ', ' + obs.location.region, displayed: true)
     state.condition_code = obs.current.weather_code
     state.cloud = obs.current.cloudcover
+    state.precip = obs.current.precip
     updateLux()
 
     sendEventPublish(name: "city", value: (cityName ?: obs.location.name), displayed: true)
     sendEventPublish(name: "weather", value: obs.current.weather_descriptions, displayed: true)
     sendEventPublish(name: "feelsLike", value: obs.current.feelslike, unit: "${(isFahrenheit ? 'F' : 'C')}", displayed: true)
     sendEventPublish(name: "wind", value: obs.current.wind_speed, unit: "${(isFahrenheit ? 'MPH' : 'KPH')}", displayed: true)
-    sendEventPublish(name: "percentPrecip", value: obs.current.precip, unit: "${(isFahrenheit ? 'IN' : 'MM')}", displayed: true)
     sendEventPublish(name: "localSunrise", value: localSunrise, displayed: true)
     sendEventPublish(name: "localSunset", value: localSunset, displayed: true)
 
@@ -563,7 +564,6 @@ private getImgName(wCode, is_day)       {
 	last_updated_epoch:	'Last updated epoch',
 	mytile:				'Mytile for dashboard',
 	precip:			    'Precipitation in default units',
-	percentPrecip:		'Percent precipitation',
 	pressure:			'Pressure',
 	temperature:		'Temperature',
     visibility:         'Visibility in default units' ,
