@@ -2,10 +2,10 @@
 *  Copyright 2020 craigde
 *
 *  Contributors:
-*       https://github.com/adey/bangali/blob/master/driver/apixu-weather.groovy    old apiux driver used as a starting point 
-*       https://github.com/jebbett      code for new weather icons based on weather condition data
-*       https://www.deviantart.com/vclouds/art/VClouds-Weather-Icons-179152045     new weather icons courtesy of VClouds
-*		https://github.com/arnbme		code for mytile
+*     https://github.com/adey/bangali/blob/master/driver/apixu-weather.groovy - old apiux driver used as a starting point 
+*     https://github.com/jebbett - code for new weather icons based on weather condition data
+*     https://www.deviantart.com/vclouds/art/VClouds-Weather-Icons-179152045 - new weather icons courtesy of VClouds
+*     https://github.com/arnbme - code for mytile
 *
 *  Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
 *  in compliance with the License. You may obtain a copy of the License at:
