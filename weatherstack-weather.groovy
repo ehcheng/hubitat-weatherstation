@@ -1,16 +1,18 @@
 /***********************************************************************************************************************
 *  Copyright 2020 craigde
 *
+*  Source - https://github.com/craigde/hubitat-weatherstation/edit/master/weatherstack-weather.groovy
+*
 *  Contributors:
-*     https://github.com/adey/bangali/blob/master/driver/apixu-weather.groovy - old apiux driver used as a starting point 
-*     https://github.com/jebbett - code for new weather icons based on weather condition data
-*     https://www.deviantart.com/vclouds/art/VClouds-Weather-Icons-179152045 - new weather icons courtesy of VClouds
-*     https://github.com/arnbme - code for mytile
+*   https://github.com/adey/bangali/blob/master/driver/apixu-weather.groovy - old apiux driver used as a starting point 
+*   https://github.com/jebbett - code for new weather icons based on weather condition data
+*   https://www.deviantart.com/vclouds/art/VClouds-Weather-Icons-179152045 - new weather icons courtesy of VClouds
+*   https://github.com/arnbme - code for mytile
 *
 *  Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
 *  in compliance with the License. You may obtain a copy of the License at:
 *
-*      http://www.apache.org/licenses/LICENSE-2.0
+*   http://www.apache.org/licenses/LICENSE-2.0
 *
 *  Unless required by applicable law or agreed to in writing, software distributed under the License is distributed
 *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
@@ -19,11 +21,9 @@
 *  Weatherstack Weather Driver
 *
 *  Author: craigde
-*
 *  Date: 2020-07-17
 *
 *  attribution: weather data courtesy: https://api.weatherstack.com/ - see https://weatherstack.com/documentation
-*
 *  attribution: sunrise and sunset courtesy: https://sunrise-sunset.org/
 *
 * for use with HUBITAT
