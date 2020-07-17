@@ -5,7 +5,7 @@
 *       https://github.com/adey/bangali/blob/master/driver/apixu-weather.groovy    old apiux driver used as a starting point 
 *       https://github.com/jebbett      code for new weather icons based on weather condition data
 *       https://www.deviantart.com/vclouds/art/VClouds-Weather-Icons-179152045     new weather icons courtesy of VClouds
-*	https://github.com/arnbme		code for mytile
+*		https://github.com/arnbme		code for mytile
 *
 *  Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
 *  in compliance with the License. You may obtain a copy of the License at:
@@ -20,7 +20,7 @@
 *
 *  Author: craigde
 *
-*  Date: 2020-05-31
+*  Date: 2020-07-17
 *
 *  attribution: weather data courtesy: https://api.weatherstack.com/ - see https://weatherstack.com/documentation
 *
@@ -36,7 +36,7 @@
 *
 ***********************************************************************************************************************/
 
-public static String version()      {  return "v1.01"  }
+public static String version()      {  return "v1.03"  }
 
 /***********************************************************************************************************************
 *
@@ -44,6 +44,7 @@ public static String version()      {  return "v1.01"  }
 *   5/31/2020: 1.0 - version 1 for weatherstack api
 *   6/1/2020:  1.01 - added hourly refresh rate
 *   7/12/2020: 1.02 - minor bug fixes
+*   7/17/2020: 1.03 - Added option to use automatic hub location and fixed bug where manual city names with spaces in them failed
 */
 
 import groovy.transform.Field
@@ -114,17 +115,16 @@ metadata    {
     }
 
     preferences     {
-        input "hubLocation", "text", title:"Zip code, city name or latitude,longitude?", required:true
-        input "apiKey", "text", title:"WeatherStation key?", required:true
+		input "useHubLocation", "bool", title:"Use Automatic Hub Location", required:true, defaultValue:true
+        input "hubLocation", "text", title:"Enter Zip code, city name or latitude,longitude if not using Automation Hub Location", required:false
+        input "apiKey", "text", title:"WeatherStack key?", required:true
         input "cityName", "text", title: "Override default city name?", required:false, defaultValue:null
         input "isFahrenheit", "bool", title:"Use Imperial units?", required:true, defaultValue:true
-        input "dashClock", "bool", title:"Flash time ':' every 2 seconds?", required:true, defaultValue:false
+        input "dashClock", "bool", title:"Udate dashboard clock':' every 2 seconds?", required:true, defaultValue:false
         input "pollEvery", "enum", title:"Poll Api interval?\nrecommended setting 60 minutes.\nilluminance is updated independently.", required:true, defaultValue:"1Hour", options:["15Minutes":"15 minutes","30Minutes":"30 minutes","1Hour":"60 minutes", "2Hour":"120 minutes"]
 		input "luxEvery", "enum", title:"Illuminance update interval?", required:true, defaultValue:"5Minutes", options:["5Minutes":"5 minutes","10Minutes":"10 minutes","15Minutes":"15 minutes","30Minutes":"30 minutes","1Hour":"60 minutes"]
 		input "isDebug", "bool", title:"Debug mode", required:true, defaultValue:false
-//        for (def attr : attributesMap)
-//			input "${attr.key}Publish", "bool", title: "$attr.value", required: true, defaultValue: true
-    }
+   }
 
 }
 
@@ -160,7 +160,7 @@ def poll()      {
    if (isDebug) {log.debug ">>>>> api: returned - $obs"}
     
    if (obs==[:])   {
-       log.warn "No response from WeatherStation API"
+       log.warn "No response from WeatherStack API"
        return
    }
     
@@ -262,7 +262,15 @@ def configure()     { poll() }
 
 def getXUdata(units)   {
     def obs = [:]
-    def params = [ uri: "http://api.weatherstack.com/current?access_key=$apiKey&query=$hubLocation&units=$units" ]
+    def params = [:]
+    
+    if (useHubLocation) {
+       params = [ uri: "http://api.weatherstack.com/current?access_key=$apiKey&query=$location.latitude,$location.longitude&units=$units" ]
+    }
+    else {
+       hubLocation = replaceAll(hubLocation)
+        params = [ uri: "http://api.weatherstack.com/current?access_key=$apiKey&query=$hubLocation&units=$units" ]
+    }
     
     if (isDebug) { log.debug "$params" }
     
@@ -430,6 +438,18 @@ private getImgName(wCode, is_day)       {
         log.debug "imgItem is $imgItem"}
     return (url + (imgItem ? imgItem.img : 'na.png'))
 }
+
+public static String replaceAll(String str) {
+        String[] words = str.split(" ");
+        StringBuilder sentence = new StringBuilder(words[0]);
+ 
+        for (int i = 1; i < words.length; ++i) {
+            sentence.append("%20");
+            sentence.append(words[i]);
+        }
+ 
+        return sentence.toString();
+    }
 
 @Field final List    imgNames =     [
         [code: 113, day: "yes", img: '32.png', ],	// DAY - Sunny
