@@ -7,13 +7,4 @@ Supports luminance which is calculated independently and can be updated more fre
 
 Sets following state variables
 
-cloud
-clockSeconds
-precip
-sunsetTime
-noonTime
-localDate
-twilight_end
-tz_id
-sunriseTime
-twilight_begin
+(cloud, clockSeconds, precip, sunsetTime, noonTime, localDate, twilight_end, tz_id, sunriseTime, twilight_begin)
