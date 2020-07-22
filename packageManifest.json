@@ -1,0 +1,16 @@
+{
+  "packageName": "Weatherstack Weather Driver",
+  "author": "Craig Dewar",
+  "version": "1.03",
+  "minimumHEVersion": "2.1.9",
+  "dateReleased": "2020-07-17",
+  "drivers": [
+    {
+      "id": "f145ab43-b484-4cab-9840-81a42938fb3f",
+      "name": "Weatherstack Weather Driver",
+      "namespace": "craigde",
+      "location": "https://raw.githubusercontent.com/craigde/hubitat-weatherstation/master/weatherstack-weather.groovy",
+      "required": true
+    }
+  ]
+}
