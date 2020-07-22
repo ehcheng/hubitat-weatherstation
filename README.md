@@ -1,4 +1,18 @@
 # hubitat-weatherstation
 Hubitat driver for weatherstack API
 
-you will need your own api key from https://weatherstack.com/
+They allow 1K API calls per month so you can poll every hour with no problems. You will need your own api key from https://weatherstack.com/
+
+Supports luminance which is calculated independently and can be updated more frequently.
+
+Sets foloowing state variables
+cloud 
+clockSeconds
+precip
+sunsetTime
+noonTime
+localDate
+twilight_end
+tz_id
+sunriseTime
+twilight_begin
