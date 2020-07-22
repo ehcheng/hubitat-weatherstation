@@ -5,9 +5,12 @@ They allow 1K API calls per month so you can poll every hour with no problems. Y
 
 Supports luminance which is calculated independently and can be updated more frequently.
 
-Sets foloowing state variables
+Sets following state variables
+
 cloud 
+
 clockSeconds
+
 precip
 sunsetTime
 noonTime
