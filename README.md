@@ -7,10 +7,8 @@ Supports luminance which is calculated independently and can be updated more fre
 
 Sets following state variables
 
-cloud 
-
+cloud
 clockSeconds
-
 precip
 sunsetTime
 noonTime
