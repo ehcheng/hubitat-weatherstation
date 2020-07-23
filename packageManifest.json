@@ -2,8 +2,9 @@
   "packageName": "Weatherstack Weather Driver",
   "author": "Craig Dewar",
   "version": "1.03",
-  "minimumHEVersion": "2.1.9",
+  "minimumHEVersion": "2.1.0",
   "dateReleased": "2020-07-17",
+  "apps" : [],
   "drivers": [
     {
       "id": "f145ab43-b484-4cab-9840-81a42938fb3f",
