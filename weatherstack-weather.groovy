@@ -36,7 +36,7 @@
 *
 ***********************************************************************************************************************/
 
-public static String version()      {  return "v1.03"  }
+public static String version()      {  return "v1.04"  }
 
 /***********************************************************************************************************************
 *
@@ -45,6 +45,7 @@ public static String version()      {  return "v1.03"  }
 *   6/1/2020:  1.01 - added hourly refresh rate
 *   7/12/2020: 1.02 - minor bug fixes
 *   7/17/2020: 1.03 - Added option to use automatic hub location and fixed bug where manual city names with spaces in them failed
+*   6/21/2022: 1.04 - weatherstack has downgraded free API calls to 250 per month so added a 3 hour update option
 */
 
 import groovy.transform.Field
@@ -121,7 +122,7 @@ metadata    {
         input "cityName", "text", title: "Override default city name?", required:false, defaultValue:null
         input "isFahrenheit", "bool", title:"Use Imperial units?", required:true, defaultValue:true
         input "dashClock", "bool", title:"Udate dashboard clock':' every 2 seconds?", required:true, defaultValue:false
-        input "pollEvery", "enum", title:"Poll Api interval?\nrecommended setting 60 minutes.\nilluminance is updated independently.", required:true, defaultValue:"1Hour", options:["15Minutes":"15 minutes","30Minutes":"30 minutes","1Hour":"60 minutes", "2Hour":"120 minutes"]
+        input "pollEvery", "enum", title:"Poll Api interval?\nrecommended setting 60 minutes.\nilluminance is updated independently.", required:true, defaultValue:"1Hour", options:["15Minutes":"15 minutes","30Minutes":"30 minutes","1Hour":"60 minutes", "2Hours":"120 minutes", "3Hours":"180 minutes"]
 		input "luxEvery", "enum", title:"Illuminance update interval?", required:true, defaultValue:"5Minutes", options:["5Minutes":"5 minutes","10Minutes":"10 minutes","15Minutes":"15 minutes","30Minutes":"30 minutes","1Hour":"60 minutes"]
 		input "isDebug", "bool", title:"Debug mode", required:true, defaultValue:false
    }
