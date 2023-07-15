@@ -1,4 +1,5 @@
 /***********************************************************************************************************************
+*  Modified 2023 by ehcheng
 *  Copyright 2020 craigde
 *
 *  Source - https://github.com/craigde/hubitat-weatherstation/edit/master/weatherstack-weather.groovy
@@ -379,11 +380,17 @@ private timeOfDayIsBetween(fromDate, toDate, checkDate, timeZone)     {
 }
 
 private sendEventPublish(evt)	{
-	def var = "${evt.name + 'Publish'}"
+    def var = "${evt.name + 'Publish'}"
     if (isDebug) { log.debug var }
-	def pub = this[var]
-	if (pub)		sendEvent(name: evt.name, value: evt.value, descriptionText: evt.descriptionText, unit: evt.unit, displayed: evt.displayed);
-    if (isDebug) { log.debug pub }
+    // REMOVED THESE LINES FROM THE ORIGINAL CODE BECAUSE this[var] returns null
+    // def pub = this[var]
+    // if (pub) sendEvent(name: evt.name, value: evt.value, descriptionText: evt.descriptionText, unit: evt.unit, displayed: evt.displayed);
+    // if (isDebug) { log.debug pub }
+
+    // THIS UPDATED CODE WORKS ON MY HUBITAT C8
+    if (isDebug) { log.debug evt }
+    sendEvent(name: evt.name, value: evt.value, descriptionText: evt.descriptionText, unit: evt.unit, displayed: evt.displayed);
+
 }
 
 def updateClock()       {
